@@ -2,8 +2,11 @@ package ch.haspra.learn.reactivereaderservice;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.mongodb.core.aggregation.DateOperators;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple2;
 
 import java.time.Duration;
 
@@ -16,15 +19,12 @@ public class PoemService {
     private final PoemRepository poemRepository;
 
     public Flux<Phrase> all(){
-        return poemRepository.findAll();
+        return poemRepository.findAll().log("SERVICE");
     }
 
-
-    public Flux<Phrase> characters(Phrase phrase) {
-        return Flux.<Phrase>generate(sink -> sink.next(
-                new Phrase(phrase.getId(), phrase.getPhrase(), phrase.getPhrase().length())))
-                .delayElements(Duration.ofSeconds(5))
-                .log()
-                .take(1);
+    public Flux<String> crazyPoet(){
+        return Flux.<String>generate(sink -> sink.next("BibbidiBubbediBap"))
+                .delayElements(Duration.ofSeconds(1))
+                .log("CRAZY");
     }
 }

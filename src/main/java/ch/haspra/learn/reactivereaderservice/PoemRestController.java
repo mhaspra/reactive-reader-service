@@ -25,6 +25,6 @@ public class PoemRestController {
 
     @GetMapping(value = "/slow", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Phrase> allSlow() {
-        return poemService.all().delayElements(Duration.ofSeconds(5)).log();
+        return poemService.all().delayElements(Duration.ofSeconds(5)).log("REST");
     }
 }
